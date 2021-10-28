@@ -1,7 +1,6 @@
 #TODO: 
 #   Fix the local variable issue in the main.getDir()    
 
-
 import csv_tool
 import tkinter as tk
 from tkinter import Frame, Text, ttk, messagebox
@@ -11,7 +10,6 @@ from tkinter.filedialog import askopenfilename
 #   0: Awaiting import
 #   1: Import succeeded with no changes on file
 #   2: Import succeeded and file got changed
-#   3: Export succeeded, changes discarded.
 
 state = 0
 filePath = ''
@@ -35,12 +33,13 @@ def init():
     button_Import = ttk.Button(
         frame, 
         text="Import CSV", 
-        command=getDir,
+        command=onImport,
         )
 
     button_Export = ttk.Button(
         frame, 
-        text="Export CSV",  
+        text="Export CSV",
+        command=onExport,  
         state='disabled'
         )
 
@@ -52,13 +51,6 @@ def init():
     entry_Constant = ttk.Entry(
         frame,
     )
-
-    button_Add = ttk.Button(
-        frame, 
-        text="Add!",
-        command=onAdd,  
-        state='enabled'
-        )
     
     # Positionings
     label_FileName.grid(row=0, column=0)
@@ -67,9 +59,8 @@ def init():
 
     label_Constant.grid(row=0, column=1, padx=20)
     entry_Constant.grid(row=1, column=1, padx=20)
-    button_Add.grid(row=2, column=1, padx=20)
 
-def getDir():
+def onImport():
     # Get the path of the CSV file.
 
     filePath = askopenfilename()
@@ -92,7 +83,7 @@ def getDir():
         print('\a')
         label_FileName.config(text='"Price" header could not found in given file')
 
-def onAdd():
+def onExport():
     constant = entry_Constant.get()
     try: constant = float(constant)
     except:
@@ -103,27 +94,18 @@ def onAdd():
     csv_tool.modify(constant)
     switchState(2)
 
-def onExport():
-    return
-
 def switchState(statusCode):
     global state
     if(statusCode == 0):
         state = 0
-        button_Add.config(state='disabled')
         button_Export.config(state='disabled')
         label_FileName.config(text='Please Import a CSV File')
         entry_Constant.delete(0, 'end')
     if(statusCode == 1):
         state = 1 
-        button_Add.config(state='enabled')
-        button_Export.config(state='disabled')
+        button_Export.config(state='enabled')
     if(statusCode == 2):
         state = 2
-        button_Add.config(state='enabled')
-        button_Export.config(state='enabled')
-    if(statusCode == 3):
-        state = 3
         button_Export.config(state='disabled')
         messagebox.showinfo(title='Success', message='Output generated in "output" folder under current directory.')
 
