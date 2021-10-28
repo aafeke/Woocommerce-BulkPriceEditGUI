@@ -1,6 +1,6 @@
 # Bulk Price Editor for Woocommerce
 
-Built in tkinter, simple GUI program for bulk editing prices of your woo commerce products. Still under development.
+Built in tkinter, simple GUI program for bulk editing prices of your Woocommerce products. Still under development.
 
 ## Usage
 
