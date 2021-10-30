@@ -1,6 +1,6 @@
 # Bulk Price Editor for Woocommerce
 
-Built in tkinter, simple GUI program for bulk editing prices of your Woocommerce products. Still under development.
+Built with tkinter, simple GUI program for bulk editing prices of your Woocommerce products. Still under development.
 
 ## Usage
 
@@ -14,11 +14,11 @@ git clone https://github.com/apri44/Woocommerce-BulkPriceEditGUI
 
 2- Import the file you just exported from Woocommerce.
 
-3- Enter a value into "Add a constant value" textbox (Note: you can enter negative values to lower current prices).
+3- Enter a value into the "Add a constant value" textbox (Note: you can enter negative values to lower current prices).
 
-4- Press the "Export" button, you'll be notified with an alert dialog if export was success. You can find the exported "output.csv" file in the working directory under .temp/output.csv
+4- Press the "Export" button, you'll be notified with an alert dialog if export was success. You can find the exported "output.csv" file under the working directory in .temp/output.csv
 
-5- Import the output into Woocommerce back, make sure "update the products that already exist" checkbox is marked.
+5- Import the output into Woocommerce back, make sure the "update the products that already exist" checkbox is marked.
 
 ## Dependencies
 
