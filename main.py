@@ -1,9 +1,6 @@
-#TODO: 
-#   Fix the local variable issue in the main.getDir()    
-
 import csv_tool
 import tkinter as tk
-from tkinter import Frame, Text, ttk, messagebox
+from tkinter import Frame, ttk, messagebox
 from tkinter.filedialog import askopenfilename
 
 # State codes
@@ -20,7 +17,6 @@ def init():
     global label_Constant, entry_Constant, button_Add
 
     root = tk.Tk()
-    #root.geometry('290x120+0+0')
 
     frame= Frame(root)
     frame.pack(fill= 'both', expand= True, padx= 5, pady=5)
@@ -62,7 +58,6 @@ def init():
 
 def onImport():
     # Get the path of the CSV file.
-
     filePath = askopenfilename()
 
     # If not a csv file, beep and return
