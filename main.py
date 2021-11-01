@@ -6,7 +6,7 @@ from tkinter.filedialog import askopenfilename
 # State codes
 #   0: Awaiting import
 #   1: Import succeeded with no changes on file
-#   2: Import succeeded and file got changed
+#   2: Export succeeded
 
 state = 0
 filePath = ''
@@ -62,11 +62,11 @@ def onImport():
 
     # If not a csv file, beep and return
     if(not filePath.endswith('.csv')):
-        print('\a')
+        onError(1)
         return
     
     # Check for the price header in the file
-    if( csv_tool.verifyFile(filePath) ):
+    elif( csv_tool.verifyFile(filePath) ):
         label_FileName.config(text=filePath)
 
         # Prepare for the CSV operations
@@ -75,18 +75,22 @@ def onImport():
         switchState(1)
 
     else:
-        print('\a')
-        label_FileName.config(text='"Price" header could not found in given file')
+        onError(2)
 
 def onExport():
     constant = entry_Constant.get()
-    try: constant = float(constant)
-    except:
-        print('\a')
-        messagebox.showerror(title='Error', message='Input is not a number')
-        entry_Constant.delete(0, 'end')
-        return
-    csv_tool.modify(constant)
+
+    # Check if input is a number or is in '%{number}' format.
+    try: float(constant)
+    except ValueError:
+        try: float(constant.replace('%', ''))
+        except ValueError: 
+            onError(0)
+            return
+    
+    # If input is fine, switch to state 2
+    try: csv_tool.modify(constant)
+    except: onError(3)
     switchState(2)
 
 def switchState(statusCode):
@@ -102,7 +106,36 @@ def switchState(statusCode):
     if(statusCode == 2):
         state = 2
         button_Export.config(state='disabled')
-        messagebox.showinfo(title='Success', message='Output generated in "output" folder under current directory.')
+        messagebox.showinfo(title='Success', message='Output generated in ".temp" folder under current directory.')
+
+        # Return to first state
+        switchState(0)
+
+def onError(code: int):
+    """
+    Handles errors.
+    0: Convertion Error
+    1: Not a CSV File
+    2: Required Headers Could Not Found in the CSV File
+    3: Unexpected
+    """
+    if code == 0:
+        print('\a')
+        messagebox.showerror(title='Error', message='The input is not valid')
+        entry_Constant.delete(0, 'end')
+        switchState(1)
+    elif code == 1:
+        print('\a')
+        messagebox.showerror(title='Error', message='Unknown File Type')
+        switchState(0)
+    elif code == 2:
+        print('\a')
+        label_FileName.config(text='"Price" header could not found in given file')
+        switchState(0)
+    else:
+        print('\a')
+        messagebox.showerror(title='Error', message='Unexpected Error')
+        switchState(0)
 
 init()
 root.mainloop()
