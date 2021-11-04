@@ -14,7 +14,7 @@ git clone https://github.com/apri44/Woocommerce-BulkPriceEditGUI
 
 2- Import the file you just exported from Woocommerce.
 
-3- Enter a value into the "Add a constant value" textbox (Note: you can enter negative values to lower current prices).
+3- Enter a value into "Add a constant value" textbox (Note: You can enter negative values to lower current prices and also specify percentage of the current prices by adding '%' (e.g. '-25%') to the end of the number).
 
 4- Press the "Export" button, you'll be notified with an alert dialog if export was success. You can find the exported "output.csv" file under the working directory in .temp/output.csv
 
